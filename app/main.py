@@ -28,7 +28,7 @@ if __name__ ==  "__main__" :
     config.read('config.ini')
 
     outputPath = config["OUTPUT"]["path"]
-    forecastOfficeID = config["LOCATION"]["forecase_office_id"]
+    forecastOfficeID = config["LOCATION"]["forecast_office_id"]
     longitude = config["LOCATION"]["x_coordinate"]
     latitude = config["LOCATION"]["y_coordinate"]
 
