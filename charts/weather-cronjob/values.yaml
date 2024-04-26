@@ -1,0 +1,12 @@
+image: 
+  repository:
+  tag: 
+
+schedule: "2 * * * *" 
+output:
+  path: /mnt/pv
+
+location:
+  office: OTP
+  longitude: 32
+  latitude: 81 

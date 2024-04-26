@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: myjob
+spec:
+  schedule: {{ .Values.schedule }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: forecast-saver
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            volumeMounts:
+              - name: forecast-claim
+                mountPath: {{ .Values.output.path }}
+              - name: config
+                mountPath: /app/config.ini
+                subPath: config.ini
+          volumes:
+            - name : forecast-claim
+              persistentVolumeClaim:
+                claimName: forecast-claim
+            - name: config
+              configMap:
+                name: config
+          restartPolicy: OnFailure
