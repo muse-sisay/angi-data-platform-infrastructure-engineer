@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cronjob
+spec:
+  destination:
+    name: ''
+    namespace: 'default'
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: charts/weather-cronjob
+    repoURL: >-
+      https://gitea.gc.home.arpa/black_sage/angi-data-platform-infrastructure-engineer
+    targetRevision: HEAD
+  sources: []
+  project: default
