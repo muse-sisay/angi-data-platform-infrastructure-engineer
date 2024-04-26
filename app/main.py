@@ -1,14 +1,12 @@
 
 from datetime import datetime, timezone
+from configparser import ConfigParser
 import requests
 import json
 import sys
 
-# TODO read from config file
-OUTPUT_PATH="/mnt/pv"
-
-def writeJsonToFile( jsonData, filename) :
-    with open( f"{OUTPUT_PATH}/{filename}.json" , "w") as file :
+def writeJsonToFile( outputPath, filename, data) :
+    with open( f"{outputPath}/{filename}.json" , "w") as file :
         json.dump(data, file )
 
 def getJsonResponse( url ):
@@ -21,10 +19,23 @@ def getJsonResponse( url ):
         sys.exit(1)
 
 
-reqUrl = "https://api.weather.gov/gridpoints/TOP/32,81/forecast/hourly"
-response = requests.get(reqUrl)
-data = json.loads(response.text)
-print("writing file")
-now = datetime.now(timezone.utc)
-dateNowString  = now.strftime("%Y-%m-%d_%H%M%S")
-writeJsonToFile(data , dateNowString)
+
+#TODO write log to STDOUT
+
+if __name__ ==  "__main__" :
+    #TODO check if config file exists
+    config  = ConfigParser()
+    config.read('config.ini')
+
+    outputPath = config["OUTPUT"]["path"]
+    forecastOfficeID = config["LOCATION"]["forecase_office_id"]
+    longitude = config["LOCATION"]["x_coordinate"]
+    latitude = config["LOCATION"]["y_coordinate"]
+
+    reqUrl = f"https://api.weather.gov/gridpoints/{forecastOfficeID}/{latitude},{longitude}/forecast/hourly"
+
+    data = getJsonResponse(reqUrl)
+
+    now = datetime.now(timezone.utc)
+    dateNowString  = now.strftime("%Y-%m-%d_%H%M%S")
+    writeJsonToFile(outputPath, dateNowString, data)
