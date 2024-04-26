@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: forecast-saver
-            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
             volumeMounts:
               - name: forecast-claim
                 mountPath: {{ .Values.output.path }}

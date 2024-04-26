@@ -1,6 +1,7 @@
 image: 
-  repository:
-  tag: 
+  registry:  gitea.gc.home.arpa
+  repository: black_sage/angi-data-platform-infrastructure-engineer/angi-forecast
+  tag: 0.0.1
 
 schedule: "2 * * * *" 
 output:
