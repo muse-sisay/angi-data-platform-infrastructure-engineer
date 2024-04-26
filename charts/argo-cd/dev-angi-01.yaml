@@ -1,0 +1,24 @@
+argo-cd:
+  configs:
+    secret:
+      # -- Bcrypt hashed admin password
+      ## Argo expects the password in the secret to be bcrypt hashed.
+      argocdServerAdminPassword: "$2a$10$ynVYgH64BK2BkwLvr9lj3u6nhuYOXb5W/vFKQePmnWpoCgion0XMW"
+  redis-ha:
+    enabled: false
+
+  controller:
+    replicas: 1
+
+  server:
+    service:
+      type: LoadBalancer
+      # loadBalancerIP: 10.0.2.100
+
+  repoServer:
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+
+  applicationSet:
+    replicas: 2

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: .
+description: Chart for deploying cilium
+type: application
+version: 0.1.0
+appVersion: "1.15.4"
+dependencies:
+  - name: cilium
+    repository: https://helm.cilium.io/
+    version: 1.15.4

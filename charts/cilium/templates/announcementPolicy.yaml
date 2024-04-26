@@ -1,0 +1,10 @@
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: announcement-policy
+  annotations:
+    "helm.sh/hook": post-install
+spec:
+  interfaces:
+  - {{ .Values.advertiseInterface }}
+  loadBalancerIPs: true
