@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: weather-forecast-argo-workflow
+spec:
+  destination:
+    name: ''
+    namespace: 'workflow'
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: charts/weather-cronjob
+    repoURL: >-
+      https://gitea.gc.home.arpa/black_sage/angi-data-platform-infrastructure-engineer
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+        - dev-angi-01-argo-workflow.yaml
+  sources: []
+  project: default
