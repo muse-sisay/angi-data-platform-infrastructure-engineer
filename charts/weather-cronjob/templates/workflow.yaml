@@ -1,0 +1,28 @@
+{{- if eq .Values.controlMode "argo-workflow" }}
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: weather-forecast
+spec:
+  schedule: {{ .Values.schedule }}
+  timezone: "America/Los_Angeles"
+  workflowSpec:
+    volumes:
+    - name : forecast-claim
+      persistentVolumeClaim:
+        claimName: forecast-claim
+    - name: config
+      configMap:
+        name: config
+    entrypoint: download-weather-forecast
+    templates:
+      - name: download-weather-forecast
+        container:
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          volumeMounts:
+            - name: forecast-claim
+              mountPath: {{ .Values.output.path }}
+            - name: config
+              mountPath: /app/config.ini
+              subPath: config.ini
+{{- end }}
