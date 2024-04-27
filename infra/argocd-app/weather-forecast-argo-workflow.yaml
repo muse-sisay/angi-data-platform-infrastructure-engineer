@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: weather-forecast-k8s-cron-job
+  name: weather-forecast-argo-workflow
 spec:
   destination:
     name: ''
-    namespace: 'default'
+    namespace: 'workflow'
     server: 'https://kubernetes.default.svc'
   source:
     path: charts/weather-cronjob
@@ -15,6 +15,6 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-        - dev-angi-01-k8s-job.yaml
+        - dev-angi-01-argo-workflow.yaml
   sources: []
   project: default

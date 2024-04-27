@@ -9,6 +9,9 @@ image:
 # -- interval at which job should run in cron format
 schedule: "2 * * * *" 
 
+# -- determines what manages and runs the job.
+# options are `kubernetes-job` for Kubernetes cronjob or `argo-workflow` for Argo Workflow
+controlMode: ""
 
 output:
   # -- path to store forecast data  
