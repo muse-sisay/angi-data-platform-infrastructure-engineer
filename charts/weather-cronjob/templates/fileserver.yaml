@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  label:
+  labels:
     app: fileserver
   name: fileserver
 spec:
