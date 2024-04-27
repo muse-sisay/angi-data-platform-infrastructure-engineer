@@ -5,9 +5,8 @@ data:
     path = {{ .Values.output.path }}
 
     [LOCATION]
-    forecast_office_id={{ .Values.location.office }}
-    x_coordinate={{ .Values.location.longitude }}
-    y_coordinate={{ .Values.location.latitude }}
+    latitude={{ .Values.location.latitude }}
+    longitude={{ .Values.location.longitude }}
 kind: ConfigMap
 metadata:
   name: config
