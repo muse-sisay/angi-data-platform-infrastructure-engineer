@@ -2,7 +2,7 @@
 
 This Python script downloads hourly weather forecast from the National weather service. The API is located at `api.weather.gov`. It takes coordinates (latitude and longitude) as inputs to determine which forecast office to use. API documentation can be found [here](https://www.weather.gov/documentation/services-web-api).
 
-Script uses `/points/{lat},{lon}` endpoint  to retrieve metadata associated with the geographic coordinates. Then from the retrieved metadata uses `/gridpoints/{wfo}/{x},{y}/forecast/hourly` endpoint to download hourly forecast for the location. This returns a JSON response contains hourly weather predictions for the given location. Parameters included in the forecast data include temperature, wind speed, precipitation chances and more.
+Script uses `/points/{lat},{lon}` endpoint  to retrieve metadata associated with the geographic coordinates. Then from the retrieved metadata uses `/gridpoints/{wfo}/{x},{y}/forecast/hourly` endpoint to download hourly forecast for the location. This returns a JSON response contains hourly weather predictions for the given location. Included in the forecast data include is temperature, humidity, wind speed, precipitation chances and short forecast.
 
 ## installation 
 Create and activate virtual environment
