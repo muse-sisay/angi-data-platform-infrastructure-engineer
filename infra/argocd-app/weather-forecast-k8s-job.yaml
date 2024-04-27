@@ -12,5 +12,9 @@ spec:
     repoURL: >-
       https://gitea.gc.home.arpa/black_sage/angi-data-platform-infrastructure-engineer
     targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+        - dev-angi-01-k8s-job.yaml
   sources: []
   project: default
