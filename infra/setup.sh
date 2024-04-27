@@ -39,3 +39,9 @@ helm install argocd -n argocd --create-namespace  -f ../charts/argo-cd/dev-angi-
 
 helm dependency build ../charts/argo-workflow/
 helm install argocd -n workflow --create-namespace  -f ../charts/argo-workflow/dev-angi-01.yaml ../charts/argo-workflow
+
+# this is a bad idea. Instead create another service account with limited privilege
+kubectl create rolebinding default-admin --clusterrole=admin --serviceaccount=workflow:default -n workflow 
+
+kubectl apply -n argocd -f weather-forecast-argo-workflow.yaml
+kubectl apply -n argocd -f weather-forecast-k8s-job.yaml 
