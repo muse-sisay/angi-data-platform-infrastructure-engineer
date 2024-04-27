@@ -1,5 +1,5 @@
 apiVersion: v2
-name: .
+name: argocd-helm
 description: Chart for deploying argo-cd
 type: application
 version: 0.1.0
