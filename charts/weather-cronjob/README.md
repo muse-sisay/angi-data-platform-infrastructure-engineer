@@ -1,6 +1,6 @@
 # angi-weather-cj
 
-![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.1](https://img.shields.io/badge/AppVersion-0.0.1-informational?style=flat-square)
 
 Chart for deploying Angi's hourly weather forecast.
 
@@ -8,6 +8,7 @@ Chart for deploying Angi's hourly weather forecast.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| controlMode | string | `""` | determines what manages and runs the job. options are `kubernetes-job` for Kubernetes cronjob or `argo-workflow` for Argo Workflow |
 | image.registry | string | `"gitea.gc.home.arpa"` | registry e.g docker.io |
 | image.repository | string | `"black_sage/angi-data-platform-infrastructure-engineer/angi-forecast"` | repository  |
 | image.tag | string | `"0.0.2"` | image tag |

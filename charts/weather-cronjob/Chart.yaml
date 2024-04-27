@@ -2,5 +2,5 @@ apiVersion: v2
 name: angi-weather-cj
 description: Chart for deploying Angi's hourly weather forecast.
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "0.0.1"

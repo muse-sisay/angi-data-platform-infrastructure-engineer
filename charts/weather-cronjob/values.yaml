@@ -9,7 +9,8 @@ image:
 # -- interval at which job should run in cron format
 schedule: "2 * * * *" 
 
-# -- determines who manages and runs the job Kubernetes cronjob or Argo Workflow
+# -- determines what manages and runs the job.
+# options are `kubernetes-job` for Kubernetes cronjob or `argo-workflow` for Argo Workflow
 controlMode: ""
 
 output:
