@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cronjob
+  name: weather-forecast-k8s-cron-job
 spec:
   destination:
     name: ''
