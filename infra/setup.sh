@@ -36,3 +36,6 @@ helm install cilium -n kube-system -f ../charts/cilium/dev-angi-01.yaml ../chart
 
 helm dependency build ../charts/argo-cd/
 helm install argocd -n argocd --create-namespace  -f ../charts/argo-cd/dev-angi-01.yaml ../charts/argo-cd
+
+helm dependency build ../charts/argo-workflow/
+helm install argocd -n workflow --create-namespace  -f ../charts/argo-workflow/dev-angi-01.yaml ../charts/argo-workflow
