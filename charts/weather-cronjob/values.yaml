@@ -8,6 +8,6 @@ output:
   path: /mnt/pv
 
 location:
-  office: OTP
+  office: TOP
   longitude: 32
   latitude: 81 
