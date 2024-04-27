@@ -1,3 +1,6 @@
 argo-workflows:
   server:
+    authModes: 
+      - server
     serviceType: LoadBalancer
+    servicePort: 80
