@@ -1,13 +1,22 @@
 image: 
+  # -- registry e.g docker.io
   registry:  gitea.gc.home.arpa
+  # -- repository 
   repository: black_sage/angi-data-platform-infrastructure-engineer/angi-forecast
-  tag: 0.0.1
+  # -- image tag
+  tag: 0.0.2
 
+# -- interval at which job should run in cron format
 schedule: "2 * * * *" 
+
+
 output:
+  # -- path to store forecast data  
   path: /mnt/pv
 
+# -- geographic location
 location:
-  office: TOP
-  longitude: 32
-  latitude: 81 
+  # -- longitude
+  longitude: -86.1551
+  # -- latitude
+  latitude: 39.7671
