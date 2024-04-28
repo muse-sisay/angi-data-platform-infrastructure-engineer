@@ -18,3 +18,5 @@ spec:
         - dev-angi-01-argo-workflow.yaml
   sources: []
   project: default
+  syncPolicy:
+    automated: {}
