@@ -3,8 +3,8 @@ To setup a machine either a shell script or an Ansible playbook can be used. The
 - and configure k3s
 - Cilium as the CNI with L2 IPAM and announcement
 - ArgoCD and Argo Workflows
-- Helm and Cilium binaries for installing charts and check Cilium status
-- ArgoCD application to sync 
+- Helm and Cilium binaries 
+- ArgoCD application to install pipeline in the cluster 
 
 To use the shell script
 
@@ -14,7 +14,7 @@ cd angi-data-platform-infrastructure-engineer/infra
 bash setup.sh
 ```
 
-Before using the Ansible playbook update the IP address and username in the inventory file.
+Before using the Ansible playbook update the inventory file with machines IP address and username you want to target.
 ```shell
 ansible-playbook -i inventory.ini main.yml --ask-become-pass
 ```
