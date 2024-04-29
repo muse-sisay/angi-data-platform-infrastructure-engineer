@@ -17,21 +17,25 @@ Data pipeline refer to this [README.md](./app/README.md)
 
 For this project, I have a single node cluster running **K3s** and Kubernetes version `1.29`. K3s is considered a "batteries included distribution" as it comes prepackaged with an ingress controller, storage prevision and more right out of the box. I have opted to use [Cilium](https://cilium.io/) for [layer 2 announcements](https://docs.cilium.io/en/latest/network/l2-announcements/). This allows service running inside the cluster to be accessed externally, without out a traditional loadbalancer in-front of the cluster. Cilium will be responsible for assigning IP addresses for service with type loadbalancer (IPAM) and responding to ARP requests.
 
-A [storage provisioner](https://github.com/rancher/local-path-provisioner) comes installed with K3s, which is able to dynamically create persistent volumes which our data pipeline can write to. The data pipeline is packaged and installed through a Helm chart. Along side it a file server is deployed to allow easy access to the data extracted.
+A [storage provisioner](https://github.com/rancher/local-path-provisioner) comes installed with K3s, which is able to dynamically create persistent volumes which our data pipeline can write to. The data pipeline is packaged and installed through a Helm chart. Along side, it a file server is deployed to allow easy access to the data extracted.
+
+# Deployment guide
+For deployment refer to [./infra/README](./infra/README.md)
 
 ## TODO
  - [x] write Ansible playbook to install K3s and required binaries
  - [ ] write Terraform module to create ec2 instances to run this project
+
 # Screenshots
 
  <p float="left">
-  <img src="./screenshot/argocd-homepage.png" width="33%"  />
-  <img src="./screenshot/argocd-app-cron-view.png" width="33%" />
-  <img src="./screenshot/argocd-app-workflow-view.png" width="33%" />
+  <img src="./screenshot/argocd-homepage.png" width="30%"  />
+  <img src="./screenshot/argocd-app-cron-view.png" width="30%" />
+  <img src="./screenshot/argocd-app-workflow-view.png" width="30%" />
 </p>
 
  <p float="left">
-  <img src="./screenshot/workflow-list.png" width="33%"  />
-  <img src="./screenshot/workflow-logs.png" width="33%" />
-  <img src="./screenshot/caddy-fileserver.png" width="33%" />
+  <img src="./screenshot/workflow-list.png" width="30%"  />
+  <img src="./screenshot/workflow-logs.png" width="30%" />
+  <img src="./screenshot/caddy-fileserver.png" width="30%" />
 </p>
