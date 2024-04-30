@@ -1,0 +1,22 @@
+advertiseInterface: "^enp[0-9]+s[0-9]+"
+ipRange:
+  start: "10.0.2.110"
+  end: "10.0.2.120"
+
+cilium:
+  cluster:
+    name: k3s-l2
+  ipam:
+    operator:
+      clusterPoolIPv4PodCIDRList: 10.42.0.0/16
+  operator:
+    replicas: 1
+  routingMode: tunnel
+  tunnelProtocol: vxlan
+  kubeProxyReplacement: true
+  k8sServicePort: 6443
+  # API server address
+  # TODO: can localhost be used?
+  k8sServiceHost: localhost
+  l2announcements:
+    enabled: true
