@@ -10,6 +10,14 @@ argo-cd:
         url: https://gitea.gc.home.arpa/black_sage/angi-data-platform-infrastructure-engineer
         name: angi-data-platform-infrastructure-engineer
         insecure: "true"
+    cm:
+      resource.exclusions: |
+        - apiGroups:
+          - cilium.io
+          kinds:
+          - CiliumIdentity
+          clusters:
+          - "*"
   
   redis-ha:
     enabled: false
