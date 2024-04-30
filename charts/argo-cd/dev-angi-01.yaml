@@ -4,6 +4,13 @@ argo-cd:
       # -- Bcrypt hashed admin password
       ## Argo expects the password in the secret to be bcrypt hashed.
       argocdServerAdminPassword: "$2a$10$ynVYgH64BK2BkwLvr9lj3u6nhuYOXb5W/vFKQePmnWpoCgion0XMW"
+    repositories:
+      angi-data-platform-infrastructure-engineer:
+        type: git
+        url: https://gitea.gc.home.arpa/black_sage/angi-data-platform-infrastructure-engineer
+        name: angi-data-platform-infrastructure-engineer
+        insecure: "true"
+  
   redis-ha:
     enabled: false
 
@@ -21,4 +28,4 @@ argo-cd:
       minReplicas: 1
 
   applicationSet:
-    replicas: 2
+    replicas: 0
