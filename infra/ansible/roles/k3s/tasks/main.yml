@@ -1,12 +1,9 @@
 ---
-# tasks file for k3s
-
 - name: Create K3s directory in /etc/rancher/k3s
   ansible.builtin.file:
     path: /etc/rancher/k3s/
     state: directory 
-
-
+    
 - name: Copy K3s server configuration
   ansible.builtin.copy:
     src: k3s.yaml
@@ -14,7 +11,7 @@
     owner: root
     group: root
     mode : '0644'
-    
+
 - name: Download K3s install script
   ansible.builtin.get_url:
     url: https://get.k3s.io/
@@ -24,161 +21,18 @@
     group: root
     mode: 0755
 
-- hosts: k3s-server
-  become: true
-  become_method: su
-  tasks:
+- name: Install K3s
+  ansible.builtin.command:
+    cmd: /usr/local/bin/k3s-install.sh
 
+- name: Create kube config directory 
+  ansible.builtin.file:
+    path: /root/.kube
+    state: directory 
 
-
-
-    - name: Download K3s install script
-      ansible.builtin.get_url:
-        url: https://get.k3s.io/
-        timeout: 120
-        dest: /usr/local/bin/k3s-install.sh
-        owner: root
-        group: root
-        mode: 0755
-
-    - name: Install K3s
-      ansible.builtin.command:
-        cmd: /usr/local/bin/k3s-install.sh
-
-    - name: Create K3s directory in /etc/rancher/k3s
-      ansible.builtin.file:
-        path: /root/.kube
-        state: directory 
-
-    - name: Copy kubeconfig to user directory 
-      ansible.builtin.copy:
-        remote_src: true
-        src: /etc/rancher/k3s/k3s.yaml
-        dest: /root/.kube/config
-
-    - name: Install git and pyyaml
-      ansible.builtin.package:
-        name: 
-          - git
-          - python3-yaml
-          - python3-pip
-        state: present
-
-    - name: remove EXTERNALLY-MANAGED 
-      ansible.builtin.file:
-        path: /usr/lib/python3.11/EXTERNALLY-MANAGED
-        state: absent
-
-    - name: Install Kubernetes python package
-      ansible.builtin.pip:
-        name: kubernetes
-
-    - name: Download git repository
-      ansible.builtin.git:
-        repo: https://gitea.gc.home.arpa/black_sage/angi-data-platform-infrastructure-engineer
-        dest: /root/angi-data-platform-infrastructure-engineer
-    
-
-    - name: Install Helm binary
-      ansible.builtin.unarchive:
-        src: https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz
-        dest: /usr/local/bin
-        extra_opts: 
-         - --strip-components=1
-         - linux-amd64/helm
-        remote_src: true
-        owner: root
-        group: root
-        mode: 0755
-
-    - name: Install Cilium binary
-      ansible.builtin.unarchive:
-        src: https://github.com/cilium/cilium-cli/releases/download/v0.16.5/cilium-linux-amd64.tar.gz
-        dest: /usr/local/bin
-        remote_src: true
-        owner: root
-        group: root
-        mode: 0755
-
-    - name: Helm install cilium CRD
-      kubernetes.core.helm:
-        release_name: cilium
-        release_namespace: kube-system
-        values_files:
-          - /root/angi-data-platform-infrastructure-engineer/charts/cilium/dev-angi-02.yaml
-        chart_ref: /root/angi-data-platform-infrastructure-engineer/charts/cilium/
-        dependency_update: true
-        wait: true
-        force: true
-      retries: 3
-      delay: 10
-
-    - name: Pause for 40 seconds for CRD to be installed
-      ansible.builtin.pause:
-        seconds: 40
-
-    - name: Helm uninstall cilium 
-      kubernetes.core.helm:
-        release_name: cilium
-        release_namespace: kube-system
-        state: absent
-        wait: true
-
-    - name: Helm install cilium 
-      kubernetes.core.helm:
-        release_name: cilium
-        release_namespace: kube-system
-        values_files:
-          - /root/angi-data-platform-infrastructure-engineer/charts/cilium/dev-angi-02.yaml
-        chart_ref: /root/angi-data-platform-infrastructure-engineer/charts/cilium/
-        dependency_update: true
-        wait: true
-      retries: 3
-      delay: 10
-
-    - name: Helm install Argo-CD 
-      kubernetes.core.helm:
-        release_name: argocd
-        release_namespace: argocd
-        values_files:
-          - /root/angi-data-platform-infrastructure-engineer/charts/argo-cd/dev-angi-01.yaml
-        chart_ref: /root/angi-data-platform-infrastructure-engineer/charts/argo-cd
-        dependency_update: true
-        create_namespace: true
-        wait: true
-
-    - name: Helm install Argo-Workflows 
-      kubernetes.core.helm:
-        release_name: argo-workflow
-        release_namespace: workflow
-        values_files:
-          - /root/angi-data-platform-infrastructure-engineer/charts/argo-workflow/dev-angi-01.yaml
-        chart_ref: /root/angi-data-platform-infrastructure-engineer/charts/argo-workflow
-        dependency_update: true
-        create_namespace: true
-        wait: true
-
-    - name: Create rolebinding for SA
-      ansible.builtin.command:
-        argv:
-          - kubectl 
-          - create
-          - rolebinding
-          - default-admin
-          - --clusterrole=admin
-          - --serviceaccount=workflow:default
-          - -n 
-          - workflow 
-
-    - name: Apply workflow ArgoCD app.
-      kubernetes.core.k8s:
-        state: present
-        src: /root/angi-data-platform-infrastructure-engineer/infra/argocd-app/weather-forecast-argo-workflow.yaml
-        namespace: argocd
-
-    - name: Apply workflow ArgoCD app.
-      kubernetes.core.k8s:
-        state: present
-        src: /root/angi-data-platform-infrastructure-engineer/infra/argocd-app/weather-forecast-k8s-job.yaml
-        namespace: argocd
+- name: Copy kubeconfig to user directory 
+  ansible.builtin.copy:
+    remote_src: true
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /root/.kube/config
     
