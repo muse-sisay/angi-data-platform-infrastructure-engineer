@@ -1,44 +1,9 @@
 - hosts: k3s-server
   become: true
   become_method: su
+  roles:
+    - k3s
   tasks:
-    - name: Create K3s directory in /etc/rancher/k3s
-      ansible.builtin.file:
-        path: /etc/rancher/k3s/
-        state: directory 
-
-    - name: Copy K3s server configuration
-      ansible.builtin.copy:
-        src: ../k3s-config.yaml
-        dest: /etc/rancher/k3s/config.yaml
-        owner: root
-        group: root
-        mode : '0644'
-
-    - name: Download K3s install script
-      ansible.builtin.get_url:
-        url: https://get.k3s.io/
-        timeout: 120
-        dest: /usr/local/bin/k3s-install.sh
-        owner: root
-        group: root
-        mode: 0755
-
-    - name: Install K3s
-      ansible.builtin.command:
-        cmd: /usr/local/bin/k3s-install.sh
-
-    - name: Create K3s directory in /etc/rancher/k3s
-      ansible.builtin.file:
-        path: /root/.kube
-        state: directory 
-
-    - name: Copy kubeconfig to user directory 
-      ansible.builtin.copy:
-        remote_src: true
-        src: /etc/rancher/k3s/k3s.yaml
-        dest: /root/.kube/config
-
     - name: Install git and pyyaml
       ansible.builtin.package:
         name: 
@@ -88,7 +53,7 @@
         release_name: cilium
         release_namespace: kube-system
         values_files:
-          - /root/angi-data-platform-infrastructure-engineer/charts/cilium/dev-angi-01.yaml
+          - /root/angi-data-platform-infrastructure-engineer/charts/cilium/dev-angi-02.yaml
         chart_ref: /root/angi-data-platform-infrastructure-engineer/charts/cilium/
         dependency_update: true
         wait: true
@@ -112,7 +77,7 @@
         release_name: cilium
         release_namespace: kube-system
         values_files:
-          - /root/angi-data-platform-infrastructure-engineer/charts/cilium/dev-angi-01.yaml
+          - /root/angi-data-platform-infrastructure-engineer/charts/cilium/dev-angi-02.yaml
         chart_ref: /root/angi-data-platform-infrastructure-engineer/charts/cilium/
         dependency_update: true
         wait: true
@@ -141,6 +106,18 @@
         create_namespace: true
         wait: true
 
+    - name: Create rolebinding for SA
+      ansible.builtin.command:
+        argv:
+          - kubectl 
+          - create
+          - rolebinding
+          - default-admin
+          - --clusterrole=admin
+          - --serviceaccount=workflow:default
+          - -n 
+          - workflow 
+
     - name: Apply workflow ArgoCD app.
       kubernetes.core.k8s:
         state: present
@@ -152,3 +129,4 @@
         state: present
         src: /root/angi-data-platform-infrastructure-engineer/infra/argocd-app/weather-forecast-k8s-job.yaml
         namespace: argocd
+    
